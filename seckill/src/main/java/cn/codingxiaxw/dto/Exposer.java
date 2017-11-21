@@ -11,7 +11,7 @@ public class Exposer {
     //是否开启秒杀
     private boolean exposed;
 
-    //加密措施
+    //加密措施,防止用户破解秒杀地址
     private String md5;
 
     private long seckillId;

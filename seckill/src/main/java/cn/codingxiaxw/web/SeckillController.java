@@ -42,7 +42,7 @@ public class SeckillController
     {
         if (seckillId == null)
         {
-            return "redirect:/seckill/list";
+            return "redirect:/seckill/list";  //重定向
         }
 
         Seckill seckill=seckillService.getById(seckillId);

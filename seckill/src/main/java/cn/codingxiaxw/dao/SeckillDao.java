@@ -30,7 +30,7 @@ public interface SeckillDao
 
     /**
      * 根据偏移量查询秒杀商品列表
-     * @param offset
+     * @param offset 偏移量
      * @param limit
      * @return
      */
