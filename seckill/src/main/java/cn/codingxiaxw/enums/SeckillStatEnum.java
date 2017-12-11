@@ -1,6 +1,6 @@
 package cn.codingxiaxw.enums;
 
-/**
+/** 使用枚举表示常量数据字段
  * Created by codingBoy on 16/11/28.
  */
 public enum SeckillStatEnum {
@@ -10,6 +10,8 @@ public enum SeckillStatEnum {
     REPEAT_KILL(-1,"重复秒杀"),
     INNER_ERROR(-2,"系统异常"),
     DATE_REWRITE(-3,"数据篡改");
+
+
 
     private int state;
     private String info;

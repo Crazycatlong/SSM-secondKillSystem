@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Created by codingBoy on 16/11/28.
  */
-//@Component @Service @Dao @Controller
+//@Component 容器组件@Service @Dao @Controller
 @Service
 public class SeckillServiceImpl implements SeckillService
 {
@@ -56,9 +56,8 @@ public class SeckillServiceImpl implements SeckillService
 
     public Exposer exportSeckillUrl(long seckillId) {
         //优化点:缓存优化:超时的基础上维护一致性
-        //1。访问redi
 
-
+        //redisDao中查看逻辑
         Seckill seckill = redisDao.getSeckill(seckillId);
         if (seckill == null) {
             //2.访问数据库
@@ -95,14 +94,14 @@ public class SeckillServiceImpl implements SeckillService
         return md5;
     }
 
-    //秒杀是否成功，成功:减库存，增加明细；失败:抛出异常，事务回滚
-    @Transactional
+    //秒杀是否成功，成功:减库存，增加明细；失败:抛出异常（RuntimeException），事务回滚
     /**
-     * 使用注解控达成一制事务方法的优点:
+     * 使用注解控制事务方法的优点:
      * 1.开发团队致约定，明确标注事务方法的编程风格
      * 2.保证事务方法的执行时间尽可能短，不要穿插其他网络操作RPC/HTTP请求或者剥离到事务方法外部
      * 3.不是所有的方法都需要事务，如只有一条修改操作、只读操作不要事务控制（多条修改操作需要事务控制）
      */
+    @Transactional
     public SeckillExecution executeSeckill(long seckillId, long userPhone, String md5)
             throws SeckillException, RepeatKillException, SeckillCloseException {
 

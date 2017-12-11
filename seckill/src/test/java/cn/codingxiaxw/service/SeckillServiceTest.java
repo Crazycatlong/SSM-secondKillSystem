@@ -22,8 +22,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 //告诉junit spring的配置文件
-@ContextConfiguration({"classpath:spring/spring-dao.xml",
-                        "classpath:spring/spring-service.xml"})
+@ContextConfiguration({"classpath:spring/spring-dao.xml","classpath:spring/spring-service.xml"})
 
 public class SeckillServiceTest {
 
@@ -33,17 +32,18 @@ public class SeckillServiceTest {
     private SeckillService seckillService;
 
     @Test
-    public void getSeckillList() throws Exception {
-        List<Seckill> seckills=seckillService.getSeckillList();
-        System.out.println(seckills);
+    public void testGetSeckillList() throws Exception {
+        List<Seckill> list=seckillService.getSeckillList();
+        logger.info("list={}",list);
+        System.out.println(list);
 
     }
 
     @Test
-    public void getById() throws Exception {
-
+    public void testGetById() throws Exception {
         long seckillId=1000;
         Seckill seckill=seckillService.getById(seckillId);
+        logger.info("seckill={}",seckill);
         System.out.println(seckill);
     }
 
@@ -53,15 +53,13 @@ public class SeckillServiceTest {
         Exposer exposer=seckillService.exportSeckillUrl(seckillId);
         if (exposer.isExposed())
         {
-
-            System.out.println(exposer);
+            logger.info("exposer={}",exposer);
 
             long userPhone=13476191876L;
             String md5=exposer.getMd5();
-
             try {
                 SeckillExecution seckillExecution = seckillService.executeSeckill(seckillId, userPhone, md5);
-                System.out.println(seckillExecution);
+                logger.info("seckillExecution={}",seckillExecution);
             }catch (RepeatKillException e)
             {
                 e.printStackTrace();
@@ -72,7 +70,9 @@ public class SeckillServiceTest {
         }else {
             //秒杀未开启
             System.out.println(exposer);
+            logger.info("exposer={}",exposer);
         }
+
     }
 
     @Test

@@ -48,7 +48,7 @@ public class SeckillController
         Seckill seckill=seckillService.getById(seckillId);
         if (seckill==null)
         {
-            return "forward:/seckill/list";
+            return "forward:/seckill/list"; //跳转页面，携带request 和 response 对象
         }
 
         model.addAttribute("seckill",seckill);
@@ -56,11 +56,11 @@ public class SeckillController
         return "detail";
     }
 
-    //ajax ,json暴露秒杀接口的方法
+    //ajax ,json暴露秒杀接口的方法,用一个DTO接受数据
     @RequestMapping(value = "/{seckillId}/exposer",
-                    method = RequestMethod.GET,
-                    produces = {"application/json;charset=UTF-8"})
-    @ResponseBody
+                    method = RequestMethod.POST, //防止直接输入地址得到，浏览器输入的话是get
+                    produces = {"application/json;charset=UTF-8"})//设置浏览器ContenType
+    @ResponseBody //告诉前端返回的是Json类型的数据
     public SeckillResult<Exposer> exposer(@PathVariable("seckillId") Long seckillId)
     {
         SeckillResult<Exposer> result;
@@ -83,6 +83,7 @@ public class SeckillController
     public SeckillResult<SeckillExecution> execute(@PathVariable("seckillId") Long seckillId,
                                                    @PathVariable("md5") String md5,
                                                    @CookieValue(value = "userPhone",required = false) Long userPhone)
+            //若设置的CookieValue(value="userPhone",required="true")，当没有Cookie的值时，会报错
     {
         if (userPhone==null)
         {
